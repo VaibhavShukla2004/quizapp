@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Question;
 import com.example.demo.service.QuestionService;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/question")
@@ -19,23 +23,39 @@ public class QuestionController {
 
     @Autowired
     QuestionService questionService;
-    
-    @GetMapping("/allQuestions")
-    public List <Question> getAllQuestions ()
-    {
+
+    @GetMapping
+    public List<Question> getAllQuestions() {
         return questionService.getAllQuestions();
     }
 
-    @GetMapping("category/{category}")
-    public List<Question> getQuestionsByCategory(@PathVariable String category)
-    {
+    @GetMapping("/category/{category}")
+    public List<Question> getQuestionsByCategory(@PathVariable String category) {
         return questionService.getQuestionsByCategory(category);
     }
 
-    @PostMapping("/add")
-    public String addQuestion(@RequestBody Question question)
-    {
+    @GetMapping("/{id}")
+    public Question getQuestionById(@PathVariable int id) {
+        return questionService.getQuestionById(id);
+    }
+    
+
+    @PostMapping
+    public String addQuestion(@RequestBody Question question) {
 
         return questionService.addQuestion(question);
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteQuestion(@PathVariable int id) {
+        return questionService.deleteQuestion(id);
+    }
+
+    @PutMapping("/{id}")
+    public String updateQuestion(@PathVariable int id,
+            @RequestBody Question question) {
+        question.setId(id);
+        return questionService.updateQuestion(question);
+    }
+
 }

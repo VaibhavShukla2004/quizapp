@@ -30,5 +30,25 @@ public class QuestionService {
         }
         return "failed";
     }
-    
+
+    public String deleteQuestion(int id) {
+        if (questionDao.existsById(id)) {
+            questionDao.deleteById(id);
+            return "deleted";
+        }
+        return "not found";
+    }
+
+    public String updateQuestion(Question question) {
+        if (question != null && questionDao.existsById(question.getId())) {
+            questionDao.save(question);
+            return "updated";
+        }
+        return "failed";
+    }
+
+    public Question getQuestionById(int id) {
+        return questionDao.findById(id).orElse(null);
+    }
+ 
 }
