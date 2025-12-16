@@ -27,36 +27,53 @@ public class QuestionService {
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
     }
 
-    public List<Question> getQuestionsByCategory(String category) {
-        return questionDao.findByCategory(category);
-    }
-
-    public String addQuestion(Question question) {
-        if (question != null) {
-            questionDao.save(question);
-            return "success";
+    public ResponseEntity<List<Question>> getQuestionsByCategory(String category) {
+        try {
+            return new ResponseEntity<>(questionDao.findByCategory(category), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return "failed";
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
     }
 
-    public String deleteQuestion(int id) {
-        if (questionDao.existsById(id)) {
+    public ResponseEntity<String> addQuestion(Question question) {
+        try {
+            questionDao.save(question);
+            return new ResponseEntity<>("success", HttpStatus.CREATED);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity<String> deleteQuestion(int id) {
+        try{
             questionDao.deleteById(id);
-            return "deleted";
+            return new ResponseEntity<>("deleted", HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return "not found";
+        return new ResponseEntity<>("failed", HttpStatus.BAD_REQUEST);
     }
 
-    public String updateQuestion(Question question) {
-        if (question != null && questionDao.existsById(question.getId())) {
+    public ResponseEntity<String> updateQuestion(Question question) {
+        try {
             questionDao.save(question);
-            return "updated";
+            return new ResponseEntity<>("updated", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return "failed";
+        return new ResponseEntity<>("failed", HttpStatus.BAD_REQUEST);
     }
 
-    public Question getQuestionById(int id) {
-        return questionDao.findById(id).orElse(null);
+    public ResponseEntity<Question> getQuestionById(int id) {
+        try{
+            Question question = questionDao.findById(id).orElse(null);
+            return new ResponseEntity<>(question, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
- 
+
 }
