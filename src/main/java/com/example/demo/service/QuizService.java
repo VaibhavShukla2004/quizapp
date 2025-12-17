@@ -29,9 +29,9 @@ public class QuizService {
         Quiz quiz = new Quiz();
         quiz.setTitle(title);
         quiz.setQuestions(questions);
-        quizDao.save(quiz);
         quiz.setMarksForCorrectAnswer(marksForCorrectAnswer);
         quiz.setMarksForWrongAnswer(marksForWrongAnswer);
+        quizDao.save(quiz);
         return new ResponseEntity <> ("success",HttpStatus.CREATED);
     }
 
@@ -70,7 +70,7 @@ public class QuizService {
                 score += quiz.getMarksForCorrectAnswer();
             }
             else {
-                score -= quiz.getMarksForWrongAnswer();
+                score += quiz.getMarksForWrongAnswer();
             }
         }
 
@@ -96,6 +96,11 @@ public class QuizService {
         quiz.setMarksForWrongAnswer(marksForWrongAnswer);
         quizDao.save(quiz);
         return new ResponseEntity<>("Quiz updated successfully", HttpStatus.OK);
+    }
+
+    public ResponseEntity<List<Quiz>> getAllQuizzes() {
+        List<Quiz> quizzes = quizDao.findAll();
+        return new ResponseEntity<>(quizzes, HttpStatus.OK);
     }
 
 }

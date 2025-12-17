@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.QuestionWrapper;
+import com.example.demo.model.Quiz;
 import com.example.demo.model.Response;
 import com.example.demo.service.QuizService;
 
@@ -37,6 +38,11 @@ public class QuizController {
     @GetMapping("/{id}")
     public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(@PathVariable int id) {
         return quizService.getQuizQuestions(id);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Quiz>> getAllQuizzes() {
+        return quizService.getAllQuizzes();
     }
 
     @PostMapping("submit/{id}")
