@@ -38,6 +38,16 @@ public class QuestionController {
     public ResponseEntity<Question> getQuestionById(@PathVariable int id) {
         return questionService.getQuestionById(id);
     }
+    
+    @GetMapping("/title/{questionTitle}")
+    public ResponseEntity<List<Question>> getQuestionsByTitle(@PathVariable String questionTitle) {
+        return questionService.getQuestionsByTitle(questionTitle);
+    }
+
+    @GetMapping("/difficulty/{difficultyLevel}")
+    public ResponseEntity<List<Question>> getQuestionsByDifficultyLevel(@PathVariable String difficultyLevel) {
+        return questionService.getQuestionsByDifficultyLevel(difficultyLevel);
+    }
 
     @PostMapping
     public ResponseEntity<String> addQuestion(@RequestBody Question question) {

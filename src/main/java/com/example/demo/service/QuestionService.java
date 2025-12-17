@@ -76,4 +76,22 @@ public class QuestionService {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+    public ResponseEntity<List<Question>> getQuestionsByDifficultyLevel(String difficultyLevel) {
+        try {
+            return new ResponseEntity<>(questionDao.findByDifficultyLevel(difficultyLevel), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity<List<Question>> getQuestionsByTitle(String questionTitle) {
+        try {
+            return new ResponseEntity<>(questionDao.findByQuestionTitle(questionTitle), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+    }
+
 }
