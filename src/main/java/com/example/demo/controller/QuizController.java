@@ -31,8 +31,8 @@ public class QuizController {
     QuizService quizService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Quiz> getQuizById(@PathVariable String param) {
-        return quizService.getQuizById(Integer.parseInt(param)); 
+    public ResponseEntity<Quiz> getQuizById(@PathVariable int id) {
+        return quizService.getQuizById(id); 
     }
     
 

@@ -7,3 +7,22 @@ export async function getAllQuizzes() {
   }
   return response.json();
 }
+
+export async function getQuizQuestions(quizId) {
+  const res = await fetch(`${BASE_URL}/quiz/questions/${quizId}`);
+  if (!res.ok) throw new Error("Failed to load quiz questions");
+  return res.json();
+}
+
+export async function submitQuiz(quizId, responses) {
+  const res = await fetch(`${BASE_URL}/quiz/submit/${quizId}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(responses)
+  });
+
+  if (!res.ok) throw new Error("Failed to submit quiz");
+  return res.json(); // score (int)
+}
