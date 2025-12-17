@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Admin - Create Quiz</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100">
 
   <div class="max-w-xl mx-auto p-6">
+
     <h1 class="text-2xl font-bold mb-4">Create Quiz</h1>
 
     <form id="quizForm" class="space-y-4">
@@ -17,14 +20,65 @@
       <input id="correct" type="number" placeholder="Marks for correct" class="w-full p-2 border rounded" />
       <input id="wrong" type="number" placeholder="Marks for wrong" class="w-full p-2 border rounded" />
 
-      <button class="bg-green-600 text-white px-4 py-2 rounded">
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">
         Create
       </button>
     </form>
 
     <p id="status" class="mt-4 font-semibold"></p>
+
+    <hr class="my-6">
+
+    <h2 class="text-xl font-bold mb-3">Add Question</h2>
+
+    <form id="questionForm" class="space-y-3">
+      <input id="qTitle" placeholder="Question title" class="w-full p-2 border rounded" />
+      <input id="qCategory" placeholder="Category" class="w-full p-2 border rounded" />
+      <input id="opt1" placeholder="Option 1" class="w-full p-2 border rounded" />
+      <input id="opt2" placeholder="Option 2" class="w-full p-2 border rounded" />
+      <input id="opt3" placeholder="Option 3" class="w-full p-2 border rounded" />
+      <input id="opt4" placeholder="Option 4" class="w-full p-2 border rounded" />
+      <input id="answer" placeholder="Right answer (exact text)" class="w-full p-2 border rounded" />
+      <input id="difficulty" placeholder="Difficulty (EASY/MEDIUM/HARD)" class="w-full p-2 border rounded" />
+
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
+        Add Question
+      </button>
+    </form>
+
+    <p id="qStatus" class="mt-2 font-semibold"></p>
+
+    <hr class="my-6">
+
+    <h2 class="text-xl font-bold mb-3">All Questions</h2>
+
+    <div class="flex gap-2 mb-4">
+      <input id="searchValue"
+             placeholder="id / category / difficulty"
+             class="flex-1 p-2 border rounded" />
+
+      <select id="searchType" class="p-2 border rounded">
+        <option value="all">All</option>
+        <option value="id">By ID</option>
+        <option value="category">By Category</option>
+        <option value="difficulty">By Difficulty</option>
+      </select>
+
+      <button type="button"
+              id="searchBtn"
+              class="bg-gray-700 text-white px-4 rounded">
+        Search
+      </button>
+    </div>
+
+    <div id="questionDetails"
+         class="mt-6 bg-white p-4 rounded shadow hidden"></div>
+    <br></br>
+    <div id="questionList" class="space-y-3"></div>
+
   </div>
 
   <script type="module" src="js/pages/admin.js"></script>
 </body>
+
 </html>
