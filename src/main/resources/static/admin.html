@@ -2,15 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz App</title>
-
-  <!-- Tailwind CSS (CDN) -->
+  <title>Admin - Create Quiz</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100">
 
-  <!-- page content goes here -->
+  <div class="max-w-xl mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">Create Quiz</h1>
 
+    <form id="quizForm" class="space-y-4">
+      <input id="title" placeholder="Quiz title" class="w-full p-2 border rounded" />
+      <input id="category" placeholder="Category" class="w-full p-2 border rounded" />
+      <input id="count" type="number" placeholder="No. of questions" class="w-full p-2 border rounded" />
+      <input id="correct" type="number" placeholder="Marks for correct" class="w-full p-2 border rounded" />
+      <input id="wrong" type="number" placeholder="Marks for wrong" class="w-full p-2 border rounded" />
+
+      <button class="bg-green-600 text-white px-4 py-2 rounded">
+        Create
+      </button>
+    </form>
+
+    <p id="status" class="mt-4 font-semibold"></p>
+  </div>
+
+  <script type="module" src="js/pages/admin.js"></script>
 </body>
 </html>

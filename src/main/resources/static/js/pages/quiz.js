@@ -18,7 +18,8 @@ async function loadQuiz() {
 
     questions.forEach((q, index) => {
       const div = document.createElement("div");
-      div.className = "bg-white p-4 rounded shadow";
+      div.className = "question-block bg-white p-4 rounded shadow";
+
 
       div.innerHTML = `
         <p class="font-semibold mb-2">
@@ -60,7 +61,7 @@ submitBtn.addEventListener("click", async (e) => {
 
   const responses = [];
 
-  document.querySelectorAll("div").forEach(div => {
+  document.querySelectorAll(".question-block").forEach(div => {
     const checked = div.querySelector("input[type='radio']:checked");
     if (checked) {
       const questionId = checked.name.substring(1); // q{id}

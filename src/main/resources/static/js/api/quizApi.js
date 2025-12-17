@@ -26,3 +26,14 @@ export async function submitQuiz(quizId, responses) {
   if (!res.ok) throw new Error("Failed to submit quiz");
   return res.json(); // score (int)
 }
+
+export async function createQuiz(data) {
+  const params = new URLSearchParams(data).toString();
+
+  const res = await fetch(`${BASE_URL}/quiz?${params}`, {
+    method: "POST"
+  });
+
+  if (!res.ok) throw new Error("Failed to create quiz");
+  return res.text();
+}
