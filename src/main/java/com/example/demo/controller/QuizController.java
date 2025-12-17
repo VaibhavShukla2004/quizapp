@@ -29,13 +29,14 @@ public class QuizController {
     
     @Autowired
     QuizService quizService;
-    
-    @PostMapping
-    public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int numberOfQuestions, @RequestParam String title, @RequestParam int marksForCorrectAnswer, @RequestParam int marksForWrongAnswer) {
-        return quizService.createQuiz(category, numberOfQuestions, title, marksForCorrectAnswer, marksForWrongAnswer);
-    }
 
     @GetMapping("/{id}")
+    public ResponseEntity<Quiz> getQuizById(@PathVariable String param) {
+        return quizService.getQuizById(Integer.parseInt(param)); 
+    }
+    
+
+    @GetMapping("questions/{id}")
     public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(@PathVariable int id) {
         return quizService.getQuizQuestions(id);
     }
@@ -43,6 +44,16 @@ public class QuizController {
     @GetMapping
     public ResponseEntity<List<Quiz>> getAllQuizzes() {
         return quizService.getAllQuizzes();
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateQuiz(@PathVariable int id, @RequestParam String title, @RequestParam int marksForCorrectAnswer, @RequestParam int marksForWrongAnswer) {
+        return quizService.updateQuiz(id, title, marksForCorrectAnswer, marksForWrongAnswer);
+    }
+
+    @PostMapping
+    public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int numberOfQuestions, @RequestParam String title, @RequestParam int marksForCorrectAnswer, @RequestParam int marksForWrongAnswer) {
+        return quizService.createQuiz(category, numberOfQuestions, title, marksForCorrectAnswer, marksForWrongAnswer);
     }
 
     @PostMapping("submit/{id}")
@@ -53,11 +64,6 @@ public class QuizController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteQuiz(@PathVariable int id) {
         return quizService.deleteQuiz(id);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateQuiz(@PathVariable int id, @RequestParam String title, @RequestParam int marksForCorrectAnswer, @RequestParam int marksForWrongAnswer) {
-        return quizService.updateQuiz(id, title, marksForCorrectAnswer, marksForWrongAnswer);
     }
     
 }
