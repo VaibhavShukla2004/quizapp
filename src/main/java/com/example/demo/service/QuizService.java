@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dao.QuestionDao;
 import com.example.demo.dao.QuizDao;
 import com.example.demo.model.Question;
+import com.example.demo.model.QuestionWrapper;
 import com.example.demo.model.Quiz;
+import com.example.demo.model.Response;
 
 @Service 
 public class QuizService {
@@ -29,6 +31,45 @@ public class QuizService {
         quiz.setQuestions(questions);
         quizDao.save(quiz);
         return new ResponseEntity <> ("success",HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<List<QuestionWrapper>> getQuizQuestions(int id) {
+        Quiz quiz = quizDao.findById(id).orElse(null);
+        if (quiz == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Question> questions = quiz.getQuestions();
+        List<QuestionWrapper> questionWrappers = questions.stream().map(q -> new QuestionWrapper(
+                q.getId(),
+                q.getQuestionTitle(),
+                q.getOption1(),
+                q.getOption2(),
+                q.getOption3(),
+                q.getOption4()
+        )).toList();
+
+        return new ResponseEntity<>(questionWrappers, HttpStatus.OK);  
+    }
+
+    public ResponseEntity<Integer> calculateResult(int id, List<Response> responses) {
+        Quiz quiz = quizDao.findById(id).orElse(null);
+        if (quiz == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Question> questions = quiz.getQuestions();
+        int score = 0;
+
+        for (int i = 0; i < questions.size(); i++) {
+            Question question = questions.get(i);
+            Response response = responses.get(i);
+            if (question.getRightAnswer().equals(response.getResponse())) {
+                score++;
+            }
+        }
+
+        return new ResponseEntity<>(score, HttpStatus.OK);
     }
 
 }
