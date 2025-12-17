@@ -23,13 +23,15 @@ public class QuizService {
     @Autowired
     QuestionDao questionDao;
 
-    public ResponseEntity<String> createQuiz(String category, int numberOfQuestions, String title) {
+    public ResponseEntity<String> createQuiz(String category, int numberOfQuestions, String title, int marksForCorrectAnswer, int marksForWrongAnswer) {
 
         List<Question> questions = questionDao.findRandomQuestionsByCategory(category, numberOfQuestions);
         Quiz quiz = new Quiz();
         quiz.setTitle(title);
         quiz.setQuestions(questions);
         quizDao.save(quiz);
+        quiz.setMarksForCorrectAnswer(marksForCorrectAnswer);
+        quiz.setMarksForWrongAnswer(marksForWrongAnswer);
         return new ResponseEntity <> ("success",HttpStatus.CREATED);
     }
 
@@ -65,11 +67,35 @@ public class QuizService {
             Question question = questions.get(i);
             Response response = responses.get(i);
             if (question.getRightAnswer().equals(response.getResponse())) {
-                score++;
+                score += quiz.getMarksForCorrectAnswer();
+            }
+            else {
+                score -= quiz.getMarksForWrongAnswer();
             }
         }
 
         return new ResponseEntity<>(score, HttpStatus.OK);
+    }
+
+    public ResponseEntity<String> deleteQuiz(int id) {
+        Quiz quiz = quizDao.findById(id).orElse(null);
+        if (quiz == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        quizDao.delete(quiz);
+        return new ResponseEntity<>("Quiz deleted successfully", HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity<String> updateQuiz(int id, String title, int marksForCorrectAnswer, int marksForWrongAnswer) {
+        Quiz quiz = quizDao.findById(id).orElse(null);
+        if (quiz == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        quiz.setTitle(title);
+        quiz.setMarksForCorrectAnswer(marksForCorrectAnswer);
+        quiz.setMarksForWrongAnswer(marksForWrongAnswer);
+        quizDao.save(quiz);
+        return new ResponseEntity<>("Quiz updated successfully", HttpStatus.OK);
     }
 
 }

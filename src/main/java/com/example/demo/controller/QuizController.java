@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.QuestionWrapper;
 import com.example.demo.model.Response;
 import com.example.demo.service.QuizService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -26,8 +30,8 @@ public class QuizController {
     QuizService quizService;
     
     @PostMapping
-    public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int numberOfQuestions, @RequestParam String title) {
-        return quizService.createQuiz(category, numberOfQuestions, title);
+    public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int numberOfQuestions, @RequestParam String title, @RequestParam int marksForCorrectAnswer, @RequestParam int marksForWrongAnswer) {
+        return quizService.createQuiz(category, numberOfQuestions, title, marksForCorrectAnswer, marksForWrongAnswer);
     }
 
     @GetMapping("/{id}")
@@ -40,5 +44,14 @@ public class QuizController {
         return quizService.calculateResult(id,responses);
     }
     
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteQuiz(@PathVariable int id) {
+        return quizService.deleteQuiz(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateQuiz(@PathVariable int id, @RequestParam String title, @RequestParam int marksForCorrectAnswer, @RequestParam int marksForWrongAnswer) {
+        return quizService.updateQuiz(id, title, marksForCorrectAnswer, marksForWrongAnswer);
+    }
     
 }
